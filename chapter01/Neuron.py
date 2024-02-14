@@ -22,27 +22,31 @@ class Neuron(object):
     # Forward the input signal through the neuron.
     z = np.dot(x, self.W) + self.b
     return self.activationFn(z)
+  
 
-# random seed generator
-np.random.seed(42)
 
-# input vector
-x = np.random.rand(3).reshape(1,3)
-print("input vector ---> ",  end="")
-print(x)
+if __name__ == '__main__':
 
-# declare the step function as the activation function 
-step_fn = lambda y: 0 if y <= 0  else 1
+  # random seed generator
+  np.random.seed(42)
 
-perceptron = Neuron(numInputs=x.size, activationFn=step_fn)
-out = perceptron.forward(x)
+  # input vector
+  x = np.random.rand(3).reshape(1,3)
+  print("input vector ---> ",  end="")
+  print(x)
 
-print("weight vector ---> ", end="")
-print(perceptron.W)
-print("bias ---> ", end="")
-print(perceptron.b)
+  # declare the step function as the activation function 
+  step_fn = lambda y: 0 if y <= 0  else 1
 
-print("y = f(z) = ", end="")
-print(out)
+  perceptron = Neuron(numInputs=x.size, activationFn=step_fn)
+  out = perceptron.forward(x)
 
-"python.exe" "c:/Workspace/tensorflow/chapter01/Neuron.py"
+  print("weight vector ---> ", end="")
+  print(perceptron.W)
+  print("bias ---> ", end="")
+  print(perceptron.b)
+
+  print("y = f(z) = ", end="")
+  print(out)
+
+  # "python.exe" "c:/Workspace/tensorflow/chapter01/Neuron.py"

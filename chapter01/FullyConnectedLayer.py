@@ -26,32 +26,34 @@ class FullyConnectedLayer(object):
     z = np.dot(x, self.W) + self.b
     return self.activationFn(z)
 
-# random seed generator
-np.random.seed(42)
+if __name__ == '__main__':
 
-# random input column-vectors of 2 values 
-x1 = np.random.uniform(-1, 1, 2).reshape(1, 2);
-x2 = np.random.uniform(-1, 1, 2).reshape(1, 2);
+  # random seed generator
+  np.random.seed(42)
 
-print("input vector ---> ",  end="")
-print(x1)
-print("input vector ---> ",  end="")
-print(x2)
+  # random input column-vectors of 2 values 
+  x1 = np.random.uniform(-1, 1, 2).reshape(1, 2);
+  x2 = np.random.uniform(-1, 1, 2).reshape(1, 2);
 
-# declare the step function as the activation function 
-reluFn = lambda y: np.maximum(y, 0)
-layer = FullyConnectedLayer(2, 3, reluFn)
+  print("input vector ---> ",  end="")
+  print(x1)
+  print("input vector ---> ",  end="")
+  print(x2)
 
-# our layer can process x1 and x2 separately...
-out1 = layer.forward(x1)
-out2 = layer.forward(x2)
+  # declare the step function as the activation function 
+  reluFn = lambda y: np.maximum(y, 0)
+  layer = FullyConnectedLayer(2, 3, reluFn)
 
-print("y = f(z1) = ",  end="")
-print(out1)
-print("y = f(z2) = ",  end="")
-print(out2)
+  # our layer can process x1 and x2 separately...
+  out1 = layer.forward(x1)
+  out2 = layer.forward(x2)
 
-x12 = np.concatenate((x1, x2)) # stack of input vectors, of shape
-out12 = layer.forward(x12)
+  print("y = f(z1) = ",  end="")
+  print(out1)
+  print("y = f(z2) = ",  end="")
+  print(out2)
 
-"python.exe" "c:/Workspace/tensorflow/chapter01/FullyConnectedLayer.py"
+  x12 = np.concatenate((x1, x2)) # stack of input vectors, of shape
+  out12 = layer.forward(x12)
+
+  #"python.exe" "c:/Workspace/tensorflow/chapter01/FullyConnectedLayer.py"
