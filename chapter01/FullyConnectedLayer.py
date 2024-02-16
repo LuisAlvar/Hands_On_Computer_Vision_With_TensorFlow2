@@ -13,18 +13,45 @@ class FullyConnectedLayer(object):
     size (int): The layer size/number of neurons
     activationFn (callable): The neurons' activation function 
   """
-  def __init__(self, numInputs, layerSize, activationFn):
+  def __init__(self, numInputs, layerSize, activationFn, dactivationFn):
     super().__init__()
     # Randomly initializaing the weight vector and bias value:
     self.W = np.random.standard_normal((numInputs, layerSize))
     self.b = np.random.rand(layerSize)
     self.size = layerSize
     self.activationFn = activationFn
+    self.dactivationFn = dactivationFn  # derivative activation function
+    self.x = 0
+    self.y = 0
+    self.dLdW = 0
+    self.dLdB = 0
 
   def forward(self, x):
     # Forward the input signal through the neuron.
-    z = np.dot(x, self.W) + self.b
-    return self.activationFn(z)
+    z = np.dot(x, self.W) + self.b    # z = W * X + b
+    self.y = self.activationFn(z)     # ŷ = sign{z} aka ŷ = activation function(z)
+    self.x = x                        # we store values for backpropagation
+    return self.y
+
+  def backward(self, dLdY):
+    # Backpropagate the loss.
+    dYdZ = self.dactivationFn(self.y)  # = f'
+    dLdZ = (dLdY * dYdZ)               # dL/dZ = dL/dY * dY/dZ =  l'_{k+1} * f'
+    dZdW = self.x.T
+    dZdX = self.W.T
+    dZdB = np.ones(dLdY.shape[0])      # dz/db = "ones" - vector
+    # Computing and storing dL w.r.t the layer's parameters:
+    self.dLdW = np.dot(dZdW, dLdZ)
+    self.dLdB = np.dot(dZdB, dLdZ)
+    # Computing the derivative w.r.t. x for the previous layers:
+    dLdX = np.dot(dLdZ, dZdX)
+    return dLdX
+  
+  def optimize(self, epsilon):
+    # Optimize the layer's parameters w.r.t. the derivative values. 
+    self.W -= epsilon * self.dLdW   # updating the Weight vector 
+    self.b -= epsilon * self.dLdB   # updating the bias neuron or attribute
+
 
 if __name__ == '__main__':
 
