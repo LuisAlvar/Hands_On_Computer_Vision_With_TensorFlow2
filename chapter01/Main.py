@@ -23,3 +23,5 @@ if __name__ == '__main__':
   # ... and we evaluate its accuracy on the MNIST  test set:
   accracy = mnist_classifier.evaluateAccuracy(xTest, yTest)
   print("accuracy = {:.2f}%".format(accracy  * 100))
+
+  losses, accuracies = mnist_classifier.train(xTrain, yTrain, xTest, yTest, batchSize=30, numEpochs=500)
